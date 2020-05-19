@@ -1,0 +1,10 @@
+body {
+    background-color: white;
+}
+// customize some Bootstrap variables
+$primary: #000000;
+$secondary: #009028;
+// the ~ allows you to reference things in node_modules
+@import "~bootstrap/scss/bootstrap";
+
+
