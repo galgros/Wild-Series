@@ -3,10 +3,10 @@
 {% block title %}All programs{% endblock %}
 
 {% block body %}
-    <h1>Toutes les séries de la table program : </h1>
+    <h1>Tout les programmes : </h1>
     {% for program in programs %}
         <div>
-            <h2>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</h2>
+            <a href="/wild/show_by_program/{{ program.title|replace({' ': '-'})|lower }}"><strong>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</strong></a>
             <p>{{ program.summary }}</p>
         </div>
     {% else %}

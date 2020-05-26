@@ -9,7 +9,16 @@
         <div class="media-body">
             <h1 class="mt-0">{{ program.title }}</h1>
             <p>{{ program.summary }}</p>
-            <p><strong>Categorie : {{ program.category.name }}</strong></p>        </div>
+            <p><strong>Categorie : {{ program.category.name }}</strong></p>            <ul>
+                {% for season in seasons %}
+                <li>
+                    <h3><a href="/wild/show_by_season/{{ season.id }}">Saison {{ season.number }}</a></h3>
+                    <p>{{ season.year }}</p>
+                    <p>{{ season.description }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 
     <a href="{{ path('wild_index') }}">
