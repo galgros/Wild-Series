@@ -7,13 +7,21 @@
     <div class="media">
         <img class="align-self-start mr-3" src="{{ program.poster }}" alt="{{ program.title }} poster">
         <div class="media-body">
-            <h1>{{ program.title }} Épisode {{ episode.number }} Saison {{ season.number }}</h1>
+            <h1>{{ program.title }} Saison {{ season.number }} Épisode {{ episode.number }}</h1>
             <p><strong>Categorie : {{ program.category.name }}</strong></p>
+            <h2>{{ episode.title }}</h2>
             <p>{{ episode.synopsis }}</p>
+            <div>
+                <div>
+                    <a href="/wild/show_by_season/{{ season.id }}">Retour à la page saisons</a>
+                </div>
+                <div>
+                    <a href="/wild/show_by_program/{{ program.title|replace({' ': '-'})|lower }}">Retour à la page Programme</a>
+                </div>
+                <div>
+                    <a href="{{ path('wild_index') }}">Retour à l'accueil</a>
+                </div>
+            </div>
         </div>
     </div>
-
-    <a href="{{ path('wild_index') }}">
-        Retour à l'accueil
-    </a>
 {% endblock %}
