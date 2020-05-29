@@ -13,7 +13,7 @@
             <p><strong>Categorie : {{ program.category.name }}</strong></p>
                 {% for episode in episodes %}
                 <li>
-                    <p>Épisode {{ episode.number }} : {{ episode.title }}</p>
+                    <p><a href="/wild/show_episode/{{ episode.id }}">Épisode {{ episode.number }} : {{ episode.title }}</a></p>
                 </li>
                 {% endfor %}
             </ul>
