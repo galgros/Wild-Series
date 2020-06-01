@@ -1,3 +1,6 @@
+Quête 12 symfony / CRUD
+https://www.loom.com/share/fe38a89c51f343d59e73e3eba573a34f
+
 Quête 11 symfony / garder la 'form'
 https://www.loom.com/share/e95189fc1ccf41879bcadade8c8917ee
 

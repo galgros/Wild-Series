@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Program{% endblock %}
+
+{% block body %}
+    <h1>Program</h1>
+    <p>{{ program.title }}</p>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ program.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ program.title }}</td>
+            </tr>
+            <tr>
+                <th>Summary</th>
+                <td>{{ program.summary }}</td>
+            </tr>
+            <tr>
+                <th>Poster</th>
+                <td>{{ program.poster }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3><a href="{{ path('season_show_by_program', {'slug': program.title|replace({' ': '-'})|lower}) }}">Show Seasons</a></h3>
+
+    <a href="{{ path('program_index') }}">back to list</a>
+
+    <a href="{{ path('program_edit', {'id': program.id}) }}">edit</a>
+
+    {{ include('program/_delete_form.html.twig') }}
+{% endblock %}
