@@ -3,6 +3,10 @@
 {% block title %}All programs{% endblock %}
 
 {% block body %}
+    {{ form_start(form) }}
+        {{ form_row(form.searchField) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
     <h1>Tout les programmes : </h1>
     {% for program in programs %}
         <div>
