@@ -26,6 +26,17 @@
         </tbody>
     </table>
 
+    <strong>Acteur :</strong>
+    <ul>
+        {% for actor in program.actors %}
+            <li>
+                <a href="{{ path( 'wild_actor', { 'id' : actor.id }) }}">{{ actor.name }}</a>
+            </li>
+        {% else %}
+            <li>Aucun acteur pour cette série</li>
+        {% endfor %}
+    </ul>
+
     <h3><a href="{{ path('season_show_by_program', {'slug': program.title|replace({' ': '-'})|lower}) }}">Show Seasons</a></h3>
 
     <a href="{{ path('program_index') }}">back to list</a>

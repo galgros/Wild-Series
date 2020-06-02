@@ -9,7 +9,11 @@
         <div class="media-body">
             <h1 class="mt-0">{{ program.title }}</h1>
             <p>{{ program.summary }}</p>
-            <p><strong>Categorie : {{ program.category.name }}</strong></p>            <ul>
+            <p><strong>Categorie : {{ program.category.name }}</strong></p>
+            {% for actor in program.actors %}
+                <a href="{{ path( 'wild_actor', { 'id' : actor.id }) }}">- {{ actor.name }} </a>
+            {% endfor %}
+            <ul>
                 {% for season in seasons %}
                 <li>
                     <h3><a href="/wild/show_by_season/{{ season.id }}">Saison {{ season.number }}</a></h3>
