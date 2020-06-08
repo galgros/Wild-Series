@@ -12,6 +12,15 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/program">All Series<span class="sr-only">(current)</span></a>
             </li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') or app.user %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/logout">Logout<span class="sr-only">(current)</span></a>
+                </li>
+            {% else %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/login">Login<span class="sr-only">(current)</span></a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>

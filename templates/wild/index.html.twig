@@ -3,15 +3,25 @@
 {% block title %}All programs{% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
-        {{ form_row(form.searchField) }}
-        <button class="btn">{{ button_label|default('Save') }}</button>
-    {{ form_end(form) }}
-    <h1>Tout les programmes : </h1>
+    <h1>Toutes les séries</h1>
+    <div class="form">
+        <div class="form-control">
+            {{ form_start(form) }}
+            <div class="search-field">
+                {{ form_row(form.searchField) }}
+            </div>
+            <button class="btn">{{ button_label|default('Search') }}</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
     {% for program in programs %}
-        <div>
-            <a href="/wild/show_by_program/{{ program.title|replace({' ': '-'})|lower }}"><strong>{{ loop.index }} / {{ program.title }} - Catégorie : {{ program.category.name }}</strong></a>
-            <p>{{ program.summary }}</p>
+        <div class="program-card">
+            <img class="align-self-start mr-3 index-image" src="{{program.poster}}" alt="{{ program.title }} poster">
+            <div class="program-content">
+                <a href="/wild/show_by_program/{{ program.title|replace({' ': '-'})|lower }}"><strong>{{ program.title }}</strong></a>
+                <p>Catégorie : {{ program.category.name }}</p>
+                <p>{{ program.summary }}</p>
+            </div>
         </div>
     {% else %}
         Aucune série trouvée.

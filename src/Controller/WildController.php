@@ -4,11 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Actor;
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Season;
 use App\Form\CategoryType;
+use App\Form\CommentType;
 use App\Form\ProgramSearchType;
+use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +23,9 @@ use Symfony\Component\HttpFoundation\Request;
 class WildController extends AbstractController
 {
     /**
+     * @param Request $request
      * @Route("/", name="index")
+     * @return Response
      */
     public function index(Request $request): Response
     {
@@ -178,14 +183,33 @@ class WildController extends AbstractController
 
     /**
      * @param Episode $episode
-     * @Route("/show_episode/{id}", name="show_episode")
+     * @param Request $request
+     * @param CommentRepository $commentRepository
+     * @Route("/show_episode/{id}/", name="show_episode")
+     * @return Response
      */
-    public function showEpisode(Episode $episode)
+    public function showEpisode(Episode $episode, Request $request, CommentRepository $commentRepository)
     {
         $season = $episode->getSeason();
         $program = $season->getProgram();
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $comment->setAuthor($this->getUser())
+                ->setEpisode($episode)
+                ->setCreatedAt(date_create('now'));
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('wild_show_episode', ['id' => $episode->getId()]);
+        }
 
         return $this->render('wild/showEpisode.html.twig', [
+            'form' => $form->createView(),
+            'comments' => $commentRepository->findBy([], ['created_at' => 'ASC']),
             'program' => $program,
             'season' => $season,
             'episode' => $episode

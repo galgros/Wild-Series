@@ -11,6 +11,45 @@
             <p><strong>Categorie : {{ program.category.name }}</strong></p>
             <h2>{{ episode.title }}</h2>
             <p>{{ episode.synopsis }}</p>
+            <table class="table table-white">
+                <thead>
+                <tr>
+                    <th>Author</th>
+                    <th>Comment</th>
+                    <th>Rate</th>
+                    <th>Created_at</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for comment in comments %}
+                    {% if comment.episode.id == episode.id %}
+                        <tr>
+                            <td>{{ comment.author.email }}</td>
+                            <td>{{ comment.comment }}</td>
+                            <td>{{ comment.rate }}</td>
+                            <td>{{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>
+                                <a href="{{ path('comment_edit', {'id': comment.id}) }}">edit</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            {% if app.user %}
+            <div class="form">
+                {{ form_start(form) }}
+                    {{ form_row(form.comment) }}
+                    {{ form_row(form.rate) }}
+                    <button class="btn btn-white">{{ button_label|default('Save') }}</button>
+                {{ form_end(form) }}
+            </div>
+            {% endif %}
             <div>
                 <div>
                     <a href="/wild/show_by_season/{{ season.id }}">Retour à la page saisons</a>
