@@ -1,3 +1,6 @@
+Quête 15 symfony / Entity Type
+https://www.loom.com/share/c78ea0eb73b34caf8596f608e11c511f
+
 Quête 19 symfony / gestion des users
 https://www.loom.com/share/95d6aaac3e6b44bcb286f77fd8b60605
 
