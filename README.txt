@@ -1,3 +1,6 @@
+Quête 16 symfony / Fixtures
+https://www.loom.com/share/6ea1fe58d9c44dcbb02667e591fee453
+
 Quête 15 symfony / Entity Type
 https://www.loom.com/share/c78ea0eb73b34caf8596f608e11c511f
 
