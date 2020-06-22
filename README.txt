@@ -1,3 +1,6 @@
+Quête 17 symfony / Slugify
+https://www.loom.com/share/e37f4e52d2e14f9d974bb97d564bab86
+
 Quête 16 symfony / Fixtures
 https://www.loom.com/share/6ea1fe58d9c44dcbb02667e591fee453
 
