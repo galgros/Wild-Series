@@ -1,4 +1,8 @@
 security:
+    role_hierarchy:
+        ROLE_SUBSCRIBER: ROLE_USER
+        ROLE_ADMIN:  ROLE_SUBSCRIBER
+
     encoders:
         App\Entity\User:
             algorithm: auto
@@ -35,6 +39,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/wild, roles: ROLE_USER }
         - { path: ^/program, roles: ROLE_ADMIN }
         - { path: ^/season, roles: ROLE_ADMIN }
         - { path: ^/episode, roles: ROLE_ADMIN }

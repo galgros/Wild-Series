@@ -28,9 +28,15 @@
                             <td>{{ comment.comment }}</td>
                             <td>{{ comment.rate }}</td>
                             <td>{{ comment.createdAt ? comment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                            <td>
-                                <a href="{{ path('comment_edit', {'id': comment.id}) }}">edit</a>
-                            </td>
+                            {% if app.user.email == comment.author.email %}
+                                <td>
+                                    <a href="{{ path('comment_edit', {'id': comment.id}) }}">edit</a>
+                                </td>
+                            {% elseif is_granted('ROLE_ADMIN') %}
+                                <td>
+                                    <a href="{{ path('comment_delete', {'id': comment.id}) }}">delete</a>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endif %}
                 {% else %}
@@ -41,7 +47,7 @@
                 </tbody>
             </table>
 
-            {% if app.user %}
+            {% if is_granted("ROLE_SUBSCRIBER") %}
             <div class="form">
                 {{ form_start(form) }}
                     {{ form_row(form.comment) }}

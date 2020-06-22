@@ -156,16 +156,16 @@ class WildController extends AbstractController
      * @param int $id
      * @param Season $season
      * @return Response
-     * @Route("/show_by_season/{number<[0-9]+>}", defaults={"number" = null}, name="show_by_season")
+     * @Route("/show_by_season/{id<[0-9]+>}", defaults={"id" = null}, name="show_by_season")
      */
     public function showBySeason(int $id, Season $season) {
         if (!$id) {
             throw $this
                 ->createNotFoundException('No season id has been sent to find a season in season\'s table.');
         }
-        /*$season = $this->getDoctrine()
+        $season = $this->getDoctrine()
             ->getRepository(Season::class)
-            ->findOneBy(['id' => $id]);*/
+            ->findOneBy(['id' => $id]);
         $program = $season->getProgram();
         $episodes = $season->getEpisodes();
 
@@ -186,11 +186,15 @@ class WildController extends AbstractController
      * @param Episode $episode
      * @param Request $request
      * @param CommentRepository $commentRepository
-     * @Route("/show_episode/{slug}/", name="show_episode")
+     * @Route("/show_episode/{id}/", name="show_episode")
      * @return Response
      */
-    public function showEpisode(Episode $episode, Request $request, CommentRepository $commentRepository)
+    public function showEpisode($id, Request $request, CommentRepository $commentRepository)
     {
+        $episode = $this->getDoctrine()
+            ->getRepository(Episode::class)
+            ->findOneBy(['id' => $id]);
+
         $season = $episode->getSeason();
         $program = $season->getProgram();
         $comment = new Comment();
