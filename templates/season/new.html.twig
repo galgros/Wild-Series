@@ -7,5 +7,5 @@
 
     {{ include('season/_form.html.twig') }}
 
-    <a href="{{ path('season_index') }}">back to list</a>
+    <a href="{{ path('season_show_by_program', {'program': program.slug}) }}">back to list</a>
 {% endblock %}

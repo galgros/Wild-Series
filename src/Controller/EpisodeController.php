@@ -54,8 +54,15 @@ class EpisodeController extends AbstractController
     /**
      * @Route("/new", name="episode_new", methods={"GET","POST"})
      */
-    public function new(Request $request, Slugify $slugify): Response
+    public function new(Request $request, Slugify $slugify, $program, $number): Response
     {
+        $currentProgram = $this->getDoctrine()
+            ->getRepository(Program::class)
+            ->findOneBy(['slug' => $program]);
+        $currentSeason = $this->getDoctrine()
+            ->getRepository(Season::class)
+            ->findOneBy(['number' => $number, 'program' => $currentProgram]);
+
         $episode = new Episode();
         $form = $this->createForm(EpisodeType::class, $episode);
         $form->handleRequest($request);
@@ -65,11 +72,18 @@ class EpisodeController extends AbstractController
             $episode->setSlug($slugify->generate($episode->getTitle()));
             $entityManager->persist($episode);
             $entityManager->flush();
-
-            return $this->redirectToRoute('episode_index');
+            $this->addFlash(
+                'success',
+                'You have successfully add an episode'
+            );
+            return $this->redirectToRoute('episode_show_by_season', [
+                'program' => $currentProgram->getSlug(),
+                'number' => $currentSeason->getNumber()
+            ]);
         }
 
         return $this->render('episode/new.html.twig', [
+            'season' => $currentSeason,
             'episode' => $episode,
             'form' => $form->createView(),
         ]);
@@ -117,14 +131,28 @@ class EpisodeController extends AbstractController
     /**
      * @Route("/{id}", name="episode_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Episode $episode): Response
+    public function delete(Request $request, Episode $episode, $program, $number): Response
     {
+        $currentProgram = $this->getDoctrine()
+            ->getRepository(Program::class)
+            ->findOneBy(['slug' => $program]);
+        $currentSeason = $this->getDoctrine()
+            ->getRepository(Season::class)
+            ->findOneBy(['number' => $number, 'program' => $currentProgram]);
+
         if ($this->isCsrfTokenValid('delete'.$episode->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($episode);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('episode_index');
+        $this->addFlash(
+            'danger',
+            'You just removed an episode'
+        );
+        return $this->redirectToRoute('episode_show_by_season', [
+            'program' => $currentProgram->getSlug(),
+            'number' => $currentSeason->getNumber()
+        ]);
     }
 }

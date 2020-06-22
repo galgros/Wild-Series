@@ -53,8 +53,12 @@ class SeasonController extends AbstractController
     /**
      * @Route("/new", name="season_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, $program): Response
     {
+        $currentProgram = $this->getDoctrine()
+            ->getRepository(Program::class)
+            ->findOneBy(['slug' => $program]);
+
         $season = new Season();
         $form = $this->createForm(SeasonType::class, $season);
         $form->handleRequest($request);
@@ -64,10 +68,16 @@ class SeasonController extends AbstractController
             $entityManager->persist($season);
             $entityManager->flush();
 
-            return $this->redirectToRoute('season_index');
+            $this->addFlash(
+                'success',
+                'You have successfully add a season'
+            );
+
+            return $this->redirectToRoute('season_show_by_program', ['program' => $currentProgram->getSlug()]);
         }
 
         return $this->render('season/new.html.twig', [
+            'program' => $currentProgram,
             'season' => $season,
             'form' => $form->createView(),
         ]);
@@ -118,17 +128,29 @@ class SeasonController extends AbstractController
     /**
      * @Route("/{number}", name="season_delete", methods={"DELETE"})
      * @param Request $request
-     * @param Season $season
      * @return Response
      */
-    public function delete(Request $request, Season $season): Response
+    public function delete(Request $request, $number, $program): Response
     {
+        $season = $this->getDoctrine()
+            ->getRepository(Season::class)
+            ->findOneBy(['number' => $number]);
+        $currentProgram = $this->getDoctrine()
+            ->getRepository(Program::class)
+            ->findOneBy(['slug' => $program]);
+
         if ($this->isCsrfTokenValid('delete'.$season->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($season);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('season_index');
+        $this->addFlash(
+            'danger',
+            'You just removed a season'
+        );
+        return $this->redirectToRoute('season_show_by_program', [
+             'program' => $currentProgram->getSlug(),
+        ]);
     }
 }
