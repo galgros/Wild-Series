@@ -25,8 +25,8 @@
                 <td>{{ season.year }}</td>
                 <td>{{ season.description }}</td>
                 <td>
-                    <a href="{{ path('season_show', {'id': season.id}) }}">show</a>
-                    <a href="{{ path('season_edit', {'id': season.id}) }}">edit</a>
+                    <a href="{{ path('season_show', {'number': season.number, 'program' : program.slug}) }}">show</a>
+                    <a href="{{ path('season_edit', {'number': season.number, 'program' : program.slug}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -37,5 +37,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('season_new') }}">Create new</a>
+    <a href="{{ path('season_new', { 'program' : program.slug }) }}">Create new</a>
 {% endblock %}

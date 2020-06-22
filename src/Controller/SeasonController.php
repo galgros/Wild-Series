@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/season")
+ * @Route("program/{program}/season")
  */
 class SeasonController extends AbstractController
 {
@@ -27,25 +27,25 @@ class SeasonController extends AbstractController
     }
 
     /**
-     * @param $slug
-     * @Route("/showByProgram/{slug}", name="season_show_by_program", methods={"GET"})
+     * @param $program
+     * @Route("/all", name="season_show_by_program", methods={"GET"})
      */
-    public function showByProgram(SeasonRepository $seasonRepository, $slug): Response
+    public function showByProgram(SeasonRepository $seasonRepository, $program): Response
     {
-        $slug = preg_replace(
+        $program = preg_replace(
             '/-/',
-            ' ', ucwords(trim(strip_tags($slug)), "-")
+            ' ', ucwords(trim(strip_tags($program)), "-")
         );
 
-        $program = $this->getDoctrine()
+        $currentProgram = $this->getDoctrine()
             ->getRepository(Program::class)
-            ->findOneBy(['title' => mb_strtolower($slug)]);
+            ->findOneBy(['title' => mb_strtolower($program)]);
         $seasons = $this->getDoctrine()
             ->getRepository(Season::class)
-            ->findBy(['program' => $program->getId()], ['number' => 'ASC']);
+            ->findBy(['program' => $currentProgram->getId()], ['number' => 'ASC']);
 
         return $this->render('season/index.html.twig', [
-            'program' => $program,
+            'program' => $currentProgram,
             'seasons' => $seasons,
         ]);
     }
@@ -74,17 +74,29 @@ class SeasonController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="season_show", methods={"GET"})
+     * @return Response
+     * @Route("/{number}", name="season_show", methods={"GET"})
      */
-    public function show(Season $season): Response
+    public function show(int $number, string $program): Response
     {
+        $currentProgram = $this->getDoctrine()
+            ->getRepository(Program::class)
+            ->findOneBy(['slug' => $program]);
+        $season = $this->getDoctrine()
+            ->getRepository(Season::class)
+            ->findOneBy(['number' => $number, 'program' => $currentProgram]);
+
         return $this->render('season/show.html.twig', [
             'season' => $season,
+            'program' => $currentProgram,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="season_edit", methods={"GET","POST"})
+     * @Route("/{number}/edit", name="season_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Season $season
+     * @return Response
      */
     public function edit(Request $request, Season $season): Response
     {
@@ -104,7 +116,10 @@ class SeasonController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="season_delete", methods={"DELETE"})
+     * @Route("/{number}", name="season_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Season $season
+     * @return Response
      */
     public function delete(Request $request, Season $season): Response
     {

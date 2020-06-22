@@ -11,7 +11,7 @@
             <p>{{ program.summary }}</p>
             <p><strong>Categorie : {{ program.category.name }}</strong></p>
             {% for actor in program.actors %}
-                <a href="{{ path( 'wild_actor', { 'id' : actor.id }) }}">- {{ actor.name }} </a>
+                <a href="{{ path( 'wild_actor', { 'slug' : actor.slug }) }}">- {{ actor.name }} </a>
             {% endfor %}
             <ul>
                 {% for season in seasons %}
