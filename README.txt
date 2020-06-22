@@ -1,3 +1,6 @@
+quête 18 symfony / Mailer
+https://www.loom.com/share/24e7089c9f8045be9294dfc4f76fc7ef
+
 Quête 23 symfony / Session et messages flash
 https://www.loom.com/share/04f9de798e914124bc81f78e0cf62ea8
 

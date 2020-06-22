@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style type="text/css">
+            body {
+                background-color: #17121A;
+                color: white;
+            }
+            .nav {
+                background-color: #009028;
+                color: black;
+            }
+            h1 {
+                font-weight: 900;
+                padding: 15px;
+                text-align: center;
+            }
+            .title {
+                font-weight: bold;
+                color: black;
+                text-decoration: none;
+            }
+            .link {
+                color: #009028;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="nav">
+        <a class="title" href="https://127.0.0.1:8000/wild"><h1>WILD SERIES</h1></a>
+    </div>
+    {% block body %}
+        <p>Nouveau: {{ program.title }}</p>
+        <p>Venez découvrir notre nouvelle série</p>
+        <a class="link" href="https://127.0.0.1:8000/wild/show_by_program/{{ program.slug }}">Voir plus</a>
+    {% endblock %}
+    </body>
+</html>
