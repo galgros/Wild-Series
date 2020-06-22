@@ -17,4 +17,12 @@ class DefaultController extends AbstractController
             'website' => 'Wild Séries',
         ]);
     }
+
+    /**
+     * @Route("/my-profil", name="my_profil")
+     */
+    public function myProfil(): Response
+    {
+        return $this->render('wild/myProfil.html.twig');
+    }
 }
